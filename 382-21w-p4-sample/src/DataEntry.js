@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
 
 export default function DataEntry({ saveGrade = (f) => f }) {
+
+  const [id, setId] = useState(0);
   const [name, setName] = useState('');
   const [grade, setGrade] = useState(0);
   const [grad, setGrad] = useState(false);
+  const [error, setError] = useState('');
+
   const handleSaveClick = () => {
     /*
 
@@ -29,6 +33,8 @@ export default function DataEntry({ saveGrade = (f) => f }) {
     if (!isError) {
       // TODO: Finish grade validation, allows non-numic
       isError = isNaN(gradeTest) && gradeTest >= 0; // Conditionals short-circuit
+    } else {
+        setError('Invalid Entry')
     }
 
     // Grad: no validation necessary
@@ -43,9 +49,23 @@ export default function DataEntry({ saveGrade = (f) => f }) {
       setName('');
       setGrade(0);
       setGrad(false);
+      setError('');
     }
   };
+
   console.log('State:', name, grade, grad);
+
+//   const useInputValue = initialValue => {
+//       const [value, setValue] = setState(initialValue);
+
+//       return {
+//           value,
+//           onChange: e => setValue(e.target.value);
+//       }
+//   }
+
+//   const name = useInputValue("");
+
   return (
     <div className="dataEntry">
       <h2>Data Entry</h2>
@@ -77,6 +97,7 @@ export default function DataEntry({ saveGrade = (f) => f }) {
       <div>
         <button onClick={handleSaveClick}>Save</button>
       </div>
+      <div className='errors'>{error}</div>
       <hr />
     </div>
   );
